@@ -20,7 +20,7 @@ from flask_wtf import CSRFProtect
 
 
 # Charger le modèle de reconnaissance d'empreinte digitales déjà entrainé 
-model = load_model('biometrie.h5')
+model = load_model('./models/biometrie.h5')
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'une_cle_secrete'
@@ -362,7 +362,7 @@ import os
 from werkzeug.utils import secure_filename
 
 # Charger votre modèle ici
-model = load_model('biometrie.h5')
+model = load_model('./models/biometrie.h5')
 
 @app.route("/payment", methods=['POST', 'GET'])
 def payment():
