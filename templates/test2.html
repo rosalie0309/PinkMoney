@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>biometrie</title>
+
+    <link rel="stylesheet" href="{{url_for('static', filename='css/styles.css')}}">
+</head>
+<body>
+    <div class="mini_body">
+        <div class="nav">
+            <img src="" alt="">
+            <a href="/" class="name_app">
+                <img style="width: 60px; margin-left: -10px;" src="{{url_for('static', filename='images/logo-1.png')}}" alt="logo">
+                <span style="color: #F263B0;">P</span><span>ink</span><span style="color: #F263B0;">M</span><span>oney</span>
+            </a>
+            <a href="/">Home</a>
+            <a href="#">Actions</a>
+            <a href="#">Contact us</a>
+            <div class="signup-account">
+                <button id="signup-account-btn" style="color: white;">Create account</button>
+            </div>
+            <div class="logout">
+                <button id="logout-btn" style="color: white;">Logout</button>
+            </div>
+            
+            <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var logoutBtn = document.getElementById('logout-btn');
+                logoutBtn.addEventListener('click', function() {
+                    // Demander une confirmation à l'utilisateur
+                    if (confirm('Are you sure you want to logout?')) {
+                        // Envoyer une requête POST au serveur pour déconnecter l'utilisateur
+                        fetch('/logout', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRFToken': '{{ csrf_token() }}'  // Si vous utilisez CSRF
+                            },
+                            body: JSON.stringify({}) // Aucun corps de requête nécessaire ici
+                        })
+                        .then(response => {
+                            if (response.ok) {
+                                // Rediriger l'utilisateur vers la page de connexion ou la page d'accueil
+                                window.location.href = '/'; // On redirige l'utilisateur vers la page index
+                            } else {
+                                console.error('Erreur lors de la déconnexion');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Erreur lors de la déconnexion:', error);
+                        });
+                    }
+                });
+            });
+            </script>
+            
+            
+            <div class="user-profile">
+                {% if profile_pic %}
+                    <img src="{{ url_for('static', filename='uploads/' + profile_pic) }}?{{ time.time() }}" alt="User Avatar" id="profile-pic" style="border-radius: 50%; height: 50px; width: 50px; cursor: pointer;">
+                {% else %}
+                    <img src="{{ url_for('static', filename='images/welcome_back.png') }}" alt="User Avatar" id="profile-pic" style="border-radius: 50%; height: 50px; width: 50px; cursor: pointer;">
+                {% endif %}
+                <span><strong>{{ username }}</strong></span>
+            </div>
+            
+            
+
+             <!-- The Modal -->
+    <div id="profileModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p>Change your profile picture</p>
+            <form method="POST" action="/update_profile_pic" enctype="multipart/form-data">
+                {{ profilForm.hidden_tag() }}
+                <input style="cursor: pointer;" type="file" name="profile_pic" required>
+                <button id="update_profile_pic" style="cursor: pointer;" type="submit">Update Profile Picture</button>
+            </form>
+            
+        </div>
+    </div>
+
+    <script>
+        // Get the modal
+        var modal = document.getElementById("profileModal");
+
+        // Get the image and insert it inside the modal
+        var img = document.getElementById("profile-pic");
+        var span = document.getElementsByClassName("close")[0];
+
+        img.onclick = function() {
+            modal.style.display = "block";
+        }
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+
+        </div>
+        <hr>
+
+        <div class="system">
+            <h2 style="text-align: center;">Actions to Perform</h2>
+            <div class="actions">
+                <div id="bloc1">
+                    <div id="act-1">
+                        <span>Make a Payment</span>
+                        <button id="payement-btn"><img src="{{url_for('static',filename='images/payment.png')}}" alt=""></button>
+                    </div>
+                    <div id="act-2">
+                        <span>View Transaction History</span>
+                        <img id="history-btn" src="{{url_for('static',filename='images/history-1.png')}}" alt="">
+                    </div>
+                </div>
+                <div id="bloc2">
+                    <div id="act-3">
+                        <span>Check the Balance</span>
+                        <img id="balance-btn" src="{{ url_for('static', filename='images/check_balance-1.png') }}" alt="Check Balance">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="product" style="display: none;"></div>
+        {% if data_send  and valid_account_number == True %}
+        <div id="confirmation-page-bank-account" style="display: none;">
+            <p>Bank Account Created Successfully !</p>
+            <button id="close-btn_4" style="font-weight: bold; margin-top: 8px; font-size: large; margin-right: 20px;">&#10006;</button>
+            <img src="{{url_for('static', filename='images/success.png')}}" alt="confirmlogo">
+        </div>
+        
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var confirmationPage = document.getElementById('confirmation-page-bank-account');
+            var product = document.getElementById('product');
+        
+            // Fermer le bloc de confirmation
+            function closeConfirmation() {
+                confirmationPage.style.display = 'none';
+                product.style.display = 'none';
+            }
+        
+            // Ajouter un écouteur d'événements pour le bouton close-btn_2
+            var closeBtn = document.getElementById('close-btn_4');
+            closeBtn.addEventListener('click', function() {
+                closeConfirmation();
+            });
+        
+            // Afficher le fond sombre à la page principale
+            product.style.display = 'block';
+        
+            // Afficher le bloc de confirmation après 1 seconde
+            setTimeout(function() {
+                confirmationPage.style.display = 'block';
+            }, 1000);
+        });
+        </script>
+        {% endif %}
+
+
+
+        {% if exist %}
+        <div id="bank-account-exist" style="display: none;">
+            <button id="close-btn_5" style="font-weight: bold; margin-top: 8px; font-size: large; margin-right: 20px;">&#10006;</button>
+            <p>This account number already exists. Please create a new account!!</p>
+            <img src="{{url_for('static', filename='images/error.png')}}" style="width: 400px;" alt="failurelogo">
+        </div>
+        
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var confirmationPage = document.getElementById('bank-account-exist');
+            var product = document.getElementById('product');
+        
+            // Fermer le bloc de confirmation
+            function closeConfirmation() {
+                confirmationPage.style.display = 'none';
+                product.style.display = 'none';
+            }
+        
+            // Ajouter un écouteur d'événements pour le bouton close-btn_2
+            var closeBtn = document.getElementById('close-btn_5');
+            closeBtn.addEventListener('click', function() {
+                closeConfirmation();
+            });
+        
+            // Afficher le fond sombre à la page principale
+            product.style.display = 'block';
+        
+            // Afficher le bloc de confirmation après 1 seconde
+            setTimeout(function() {
+                confirmationPage.style.display = 'block';
+            }, 1000);
+        });
+        </script>
+        {% endif %}
+
+
+    <div id="signup-account-form-container">
+        <div class="signup_close">
+            <p style="font-weight: bold; font-size: large; text-align: center;">Create your bank account </p>
+            <button id="close-btn_2" style="font-weight: bold; margin-top: 8px; font-size: large; margin-right: 20px;">&#10006;</button>
+            <p style="text-align: center;">Already have an account? <button id="login-start-payment"><span style="color: #54418A; font-weight: bold; cursor: pointer;">Make a payment</span></button></p>
+        </div>  
+              
+        <div id="signup-account-form" style="margin-top: -20px;">
+            <form action="{{url_for('payment_account_form')}}"  method="POST">
+                {{ signup_account_form.hidden_tag() }}
+                <p id="name_card">
+                    {{ signup_account_form.name_card.label }}<br>
+                    {{ signup_account_form.name_card(size=32) }}<br>
+                    {% for erreur in signup_account_form.name_card.errors %}
+                        <span style="color: red;">{{ erreur }}</span><br>
+                    {% endfor %}
+                </p>
+                <p id="account_number">
+                    {{ signup_account_form.account_number.label }}<br>
+                    {{ signup_account_form.account_number(size=32) }}<br>
+                    {% for erreur in signup_account_form.account_number.errors %}
+                        <span style="color: red;">{{ erreur }}</span><br>
+                    {% endfor %}
+                </p>
+                <p id="cvv">
+                    {{ signup_account_form.cvv.label }}<br>
+                    {{ signup_account_form.cvv(size=32) }}<br>
+                    {% for erreur in signup_account_form.cvv.errors %}
+                        <span style="color: red;">{{ erreur }}</span><br>
+                    {% endfor %}
+                </p>
+                <p id="amount">
+                    {{ signup_account_form.amount.label }}<br>
+                    {{ signup_account_form.amount(size=32) }}<br>
+                    {% for erreur in signup_account_form.amount.errors %}
+                        <span style="color: red;">{{ erreur }}</span><br>
+                    {% endfor %}
+                </p>
+                <p id="fingerprint">
+                    {{ signup_account_form.fingerPrint.label }}<br>
+                    {{ signup_account_form.fingerPrint(size=32) }}<br>
+                    {% for erreur in signup_account_form.fingerPrint.errors %}
+                        <span style="color: red;">{{ erreur }}</span><br>
+                    {% endfor %}
+                </p>
+                <p id="pin_code">
+                    {{ signup_account_form.pin_code.label }}<br>
+                    {{ signup_account_form.pin_code(size=32) }}<br>
+                    {% for erreur in signup_account_form.pin_code.errors %}
+                        <span style="color: red;">{{ erreur }}</span><br>
+                    {% endfor %}
+                </p>
+                <button type="submit" class="btn btn-primary"><input value="Create account" style="text-align: center;"></button>
+            </form>
+            <div class="illustrator_signup">
+                <img src="{{url_for('static', filename='images/signup.png')}}" alt="illustrator_signup" width="540px" height="540px">
+            </div>
+        </div>
+
+    </div>
+
+
+    {% if insufficient_balance == True %}
+        <div id="insufficient-balance" style="display: none;">
+            <button id="close-btn_7" style="font-weight: bold; margin-top: 8px; font-size: large; margin-right: 20px;">&#10006;</button>
+            <p>Isufficient Balance!!!</p>
+            <img src="{{url_for('static', filename='images/solde_faible.png')}}" style="width: 400px;" alt="failurelogo">
+        </div>
+        
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var confirmationPage = document.getElementById('insufficient-balance');
+            var product = document.getElementById('product');
+        
+            // Fermer le bloc de confirmation
+            function closeConfirmation() {
+                confirmationPage.style.display = 'none';
+                product.style.display = 'none';
+            }
+        
+            // Ajouter un écouteur d'événements pour le bouton close-btn_2
+            var closeBtn = document.getElementById('close-btn_7');
+            closeBtn.addEventListener('click', function() {
+                closeConfirmation();
+            });
+        
+            // Afficher le fond sombre à la page principale
+            product.style.display = 'block';
+        
+            // Afficher le bloc de confirmation après 1 seconde
+            setTimeout(function() {
+                confirmationPage.style.display = 'block';
+            }, 1000);
+        });
+        </script>
+        {% endif %}
+    
+
+
+        
+
+{% if invalid_credentials == True %}
+
+        <div id="invalid-code-pin" style="display: none;">
+            <button id="close-btn_9" style="font-weight: bold; margin-top: 8px; font-size: large; margin-right: 20px;">&#10006;</button>
+            <p>Code Pin or CVV is Invalid for the username {{username}} !!!</p>
+            <p>Please retry the transact. Thanks!!!</p>
+            <img src="{{url_for('static', filename='images/error.png')}}" style="width: 400px;" alt="confirmed-payment-logo">
+        </div>
+        
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var confirmationPage = document.getElementById('invalid-code-pin');
+            var product = document.getElementById('product');
+        
+            // Fermer le bloc de confirmation
+            function closeConfirmation() {
+                confirmationPage.style.display = 'none';
+                product.style.display = 'none';
+            }
+        
+            // Ajouter un écouteur d'événements pour le bouton close-btn_2
+            var closeBtn = document.getElementById('close-btn_9');
+            closeBtn.addEventListener('click', function() {
+                closeConfirmation();
+            });
+        
+            // Afficher le fond sombre à la page principale
+            product.style.display = 'block';
+        
+            // Afficher le bloc de confirmation après 1 seconde
+            setTimeout(function() {
+                confirmationPage.style.display = 'block';
+            }, 1000);
+        });
+        </script>
+
+{% endif %}
+
+{% if fingerprint_error %}
+<div id="invalid-fingerprint" style="display: none;">
+    <button id="close-btn_18" style="font-weight: bold; margin-top: 8px; font-size: large; margin-right: 20px;">&#10006;</button>
+    <p>Fingerprint is Invalid for the username {{username}} !!!</p>
+    <p>Please retry the transact. Thanks!!!</p>
+    <img src="{{url_for('static', filename='images/error-2.png')}}" style="width: 400px;" alt="confirmed-payment-logo">
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var confirmationPage = document.getElementById('invalid-fingerprint');
+    var product = document.getElementById('product');
+
+    function closeConfirmation() {
+        confirmationPage.style.display = 'none';
+        product.style.display = 'none';
+    }
+
+    var closeBtn = document.getElementById('close-btn_18');
+    closeBtn.addEventListener('click', function() {
+        closeConfirmation();
+    });
+
+    product.style.display = 'block';
+
+    setTimeout(function() {
+        confirmationPage.style.display = 'block';
+    }, 1000);
+});
+</script>
+{% endif %}
+
+{% if verify_finger == True and  insufficient_balance == False and invalid_credentials == False and account_not_found == False and beneficiary_account_not_found == False%}
+<div id="payment-success" style="display: none;">
+    <button id="close-btn_8" style="font-weight: bold; margin-top: 8px; font-size: large; margin-right: 20px;">&#10006;</button>
+    <p>Payment Made Successfully.</p>
+    <p>Thanks!!!</p>
+    <img src="{{url_for('static', filename='images/success-payment.png')}}" style="width: 400px;" alt="confirmed-payment-logo">
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var confirmationPage = document.getElementById('payment-success');
+    var product = document.getElementById('product');
+    var fingerprintForm = document.getElementById('fingerprint-verification-container');
+    var darkBg = document.getElementById('dark-bg'); // Sélectionnez l'élément du fond sombre
+
+    function closeConfirmation() {
+        confirmationPage.style.display = 'none';
+        product.style.display = 'none';
+        darkBg.style.display = 'none'; // Masquer le fond sombre
+    }
+
+    var closeBtn = document.getElementById('close-btn_8');
+    closeBtn.addEventListener('click', function() {
+        closeConfirmation();
+    });
+
+
+    var showConfirmationTimeout = setTimeout(function() {
+        confirmationPage.style.display = 'block';
+    }, 1000);
+
+    product.style.display = 'block';
+});
+</script>
+{% endif %}
+
+
+
+{% if account_not_found==True %}
+
+        <div id="invalid-account" style="display: none;">
+            <button id="close-btn_10" style="font-weight: bold; margin-top: 8px; font-size: large; margin-right: 20px;">&#10006;</button>
+            <p>This account does not exist here!!!</p>
+            <p>Please create a bank account and retry the transact. Thanks!!!</p>
+            <img src="{{url_for('static', filename='images/error.png')}}" style="width: 400px;" alt="confirmed-payment-logo">
+        </div>
+        
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var confirmationPage = document.getElementById('invalid-account');
+            var product = document.getElementById('product');
+        
+            // Fermer le bloc de confirmation
+            function closeConfirmation() {
+                confirmationPage.style.display = 'none';
+                product.style.display = 'none';
+            }
+        
+            // Ajouter un écouteur d'événements pour le bouton close-btn_2
+            var closeBtn = document.getElementById('close-btn_10');
+            closeBtn.addEventListener('click', function() {
+                closeConfirmation();
+            });
+        
+            // Afficher le fond sombre à la page principale
+            product.style.display = 'block';
+        
+            // Afficher le bloc de confirmation après 1 seconde
+            setTimeout(function() {x
+                confirmationPage.style.display = 'block';
+            }, 1000);
+        });
+        </script>
+
+        {% endif %}
+
+{% if beneficiary_account_not_found %}
+        <div id="invalid-account_beneficiary" style="display: none;">
+            <button id="close-btn_16" style="font-weight: bold; margin-top: 8px; font-size: large; margin-right: 20px;">&#10006;</button>
+            <p>This beneficiary account does not exist here!!!</p>
+            <p>Please verify the beneficiary account and retry. Thanks!!!</p>
+            <img src="{{url_for('static', filename='images/error.png')}}" style="width: 400px;" alt="confirmed-payment-logo">
+        </div>
+        
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var confirmationPage = document.getElementById('invalid-account_beneficiary');
+            var product = document.getElementById('product');
+        
+            // Fermer le bloc de confirmation
+            function closeConfirmation() {
+                confirmationPage.style.display = 'none';
+                product.style.display = 'none';
+            }
+        
+            // Ajouter un écouteur d'événements pour le bouton close-btn_16
+            var closeBtn = document.getElementById('close-btn_16');
+            closeBtn.addEventListener('click', function() {
+                closeConfirmation();
+            });
+        
+            // Afficher le fond sombre à la page principale
+            product.style.display = 'block';
+        
+            // Afficher le bloc de confirmation après 1 seconde
+            setTimeout(function() {
+                confirmationPage.style.display = 'block';
+            }, 1000);
+        });
+        </script>
+{% endif %}
+
+{% if valid_account_number==False %}
+        <div id="invalid-account_number" style="display: none;">
+            <button id="close-btn_17" style="font-weight: bold; margin-top: 8px; font-size: large; margin-right: 20px;">&#10006;</button>
+            <p>Account number must be either 4 or 10 characters long. Please retry the task</p>   
+        </div>
+        
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var confirmationPage = document.getElementById('invalid-account_number');
+            var product = document.getElementById('product');
+        
+            // Fermer le bloc de confirmation
+            function closeConfirmation() {
+                confirmationPage.style.display = 'none';
+                product.style.display = 'none';
+            }
+        
+            // Ajouter un écouteur d'événements pour le bouton close-btn_16
+            var closeBtn = document.getElementById('close-btn_17');
+            closeBtn.addEventListener('click', function() {
+                closeConfirmation();
+            });
+        
+            // Afficher le fond sombre à la page principale
+            product.style.display = 'block';
+        
+            // Afficher le bloc de confirmation après 1 seconde
+            setTimeout(function() {
+                confirmationPage.style.display = 'block';
+            }, 1000);
+        });
+        </script>
+{% endif %}
+        
+<div id="payment-container">
+    <div class="signup_close">
+        <p style="font-weight: bold; font-size: large; text-align: center;">Let's Make Your Payment!! </p>
+        <button id="close-btn_1" style="font-weight: bold; margin-top: 8px; font-size: large; margin-right: 20px;">&#10006;</button>
+    </div> 
+    <div id="payment">
+        <form action="{{ url_for('payment') }}" method="POST" enctype="multipart/form-data">
+            {{ payment_form.hidden_tag() }}
+    <div id="first-part">
+        <p id="account_number_sender">
+            {{ payment_form.account_number_sender.label }}<br>
+            {{ payment_form.account_number_sender(size=32) }}<br>
+            {% for erreur in payment_form.account_number_sender.errors %}
+                <span style="color: red;">{{ erreur }}</span><br>
+            {% endfor %}
+        </p>                    
+        <p id="account_number_beneficiary">
+            {{ payment_form.account_number_beneficiary.label }}<br>
+            {{ payment_form.account_number_beneficiary(size=32) }}<br>
+            {% for erreur in payment_form.account_number_beneficiary.errors %}
+                <span style="color: red;">{{ erreur }}</span><br>
+            {% endfor %}
+        </p>
+        <p>
+            {{ payment_form.cvv.label }}<br>
+            {{ payment_form.cvv(size=32) }}<br>
+            {% for erreur in payment_form.cvv.errors %}
+                <span style="color: red;">{{ erreur }}</span><br>
+            {% endfor %}
+        </p>
+        <p id="amount_be_paid">
+            {{ payment_form.amount_be_paid.label }}<br>
+            {{ payment_form.amount_be_paid(size=32) }}<br>
+            {% for erreur in payment_form.amount_be_paid.errors %}
+                <span style="color: red;">{{ erreur }}</span><br>
+            {% endfor %}
+        </p>
+        <p id="reason">
+            {{ payment_form.reason_payment.label }}<br>
+            {{ payment_form.reason_payment(size=32) }}<br>
+            {% for erreur in payment_form.reason_payment.errors %}
+                <span style="color: red;">{{ erreur }}</span><br>
+            {% endfor %}
+        </p>
+        <p id="password">
+            {{ payment_form.pin_code.label }}<br>
+            {{ payment_form.pin_code(size=32) }}<br>
+            {% for erreur in payment_form.pin_code.errors %}
+                <span style="color: red;">{{ erreur }}</span><br>
+            {% endfor %}
+        </p>
+        <p style="margin-top: 50px;">
+            <button id="next-btn" type="submit" class="btn btn-primary">Next</button>
+        </p>
+    </div>
+        </form>
+        <div class="illustrator_signup">
+            <img src="{{ url_for('static', filename='images/back-payment.png') }}" alt="illustrator_payment" width="480px" height="480px">
+        </div>
+    </div>
+</div>
+
+{% if insufficient_balance == False and invalid_credentials == False and account_not_found == False and beneficiary_account_not_found == False %}
+<div id="fingerprint-verification-container" style="display: none;">
+    <div id="fingerprint">
+        <form action="{{url_for('payment')}}" method="POST" enctype="multipart/form-data">
+            <div class="signup_close">
+                <p style="font-weight: bold; font-size: large; text-align: center;">Let's Make Your Payment!! Fingerprint Verfication</p>
+                <button class="close-btn_1" style="font-weight: bold; margin-top: 8px; font-size: large; margin-right: 20px;">&#10006;</button>
+            </div> 
+                <p id="fingerprint" style="margin-top: -5px;">
+                    <label for="fingerprint-image">Upload Fingerprint Image</label> <small style="color: #54418A; font-weight:bold ; margin-top: -50px;">Or</small> <br>
+                    <input style="cursor: pointer; margin-top: -20px;" type="file" id="fingerprint-image" name="fingerprint_image" accept="image/*">  <br>
+                    <div style="margin-top: -10px;">
+                        <button id="real-time-btn" type="button" onclick="startRealTimeFingerprintRecognition()">Use Real-Time Fingerprint Recognition</button>    
+                    </div>    
+                </p>
+                <p style="margin-top: 50px;">
+                    <button id="buy-btn" type="submit" class="btn btn-primary">Buy</button>
+                </p>
+        </form>
+    </div>
+    <div class="illustrator_signup">
+        <img src="{{ url_for('static', filename='images/back-payment.png') }}" alt="illustrator_payment" width="480px" height="480px">
+    </div>
+</div>
+<script>
+    var paymentForm = document.getElementById('payment-form');
+    var fingerprintForm = document.getElementById('fingerprint-verification-container');
+
+    paymentForm.addEventListener('submit', function(event) {
+         // Empêcher la soumission du formulaire
+
+        // Ici, vous devriez effectuer votre logique de validation pour les informations d'authentification et de paiement côté client,
+        // et si tout est valide, alors vous pouvez afficher le formulaire de vérification de l'empreinte digitale
+
+        // Par exemple, si les données sont valides :
+        paymentForm.style.display = 'none';
+        fingerprintForm.style.display = 'block';
+    });
+</script>
+{% endif %}
+
+
+
+
+
+
+<script>
+function startRealTimeFingerprintRecognition() {
+    alert("Starting real-time fingerprint recognition...");
+}
+</script>
+
+
+<div id="history-container">
+    <div class="history_close">
+        <p style="font-weight: bold; font-size: large; text-align: center; margin-top: 50px;">Here is the history of all your different payments on the PinkMoney application!!!</p>
+        <button id="close-btn_11" style="font-weight: bold; margin-top: 8px; font-size: large; margin-right: 20px;">&#10006;</button>
+    </div> 
+
+    <div class="transaction-history" style="max-height: 400px; overflow-y: auto;">
+        <table>
+            <thead>
+                <tr>
+                    <th>Id_payment</th>
+                    <th>Date</th>
+                    <th>Hour</th>
+                    <th>Amount</th>
+                    <th>Account number sender</th>
+                    <th>Account number beneficiary</th>
+                    <th>Username</th>
+                    <th>Name card</th>
+                    <th>Raison</th>
+                    <th>Statut</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for transaction in transactions %}
+                <tr style="text-align: center;">
+                    <td>{{ transaction[0] }}</td>
+                    <td>{{ transaction[1] }}</td>
+                    <td>{{ transaction[2] }}</td>
+                    <td>{{ transaction[3] }}</td>
+                    <td>{{ transaction[4] }}</td>
+                    <td>{{ transaction[5] }}</td>
+                    <td>{{ transaction[6] }}</td>
+                    <td>{{ transaction[7] }}</td>
+                    <td>{{ transaction[8] }}</td>
+                    <td>{{ transaction[9] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Button to delete transaction history -->
+    <div style="margin-left: 40%; text-align: center; width: 200px; height: 50px; border-radius: 10px; background-color: #54418A;">
+        <button id="delete-history-btn" style=" cursor: pointer; font-weight: bold; margin-top:15px; color: white; text-align: center; font-size: large; ">Delete History</button>
+    </div>
+</div>
+
+<script>
+document.getElementById('delete-history-btn').addEventListener('click', function() {
+    if (confirm('Are you sure you want to delete your transaction history?')) {
+        fetch('/delete_history', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token() }}'  // Ajoutez le jeton CSRF ici
+            }
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error('Failed to delete history');
+            }
+        })
+        .then(data => {
+            if (data.success) {
+                alert('History deleted successfully!');
+                location.reload();
+            } else {
+                throw new Error(data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error: ' + error.message);
+        });
+    }
+});
+
+</script>
+
+<div id="balance-form-container">
+    <div class="balance_close">
+        <p style="font-weight: bold; font-size: large; text-align: center; margin-top: 50px;">Check your account balance</p>
+        <button id="close-btn_12" style="font-weight: bold; margin-top: 8px; font-size: large; margin-right: 20px;">&#10006;</button>
+    </div>
+    <form id="balance-form" action="{{ url_for('balance') }}" method="POST">
+        {{ checkBalance_form.hidden_tag() }}
+        <div class="input-balance-form">
+            {{ checkBalance_form.account_number.label }}<br>
+            {{ checkBalance_form.account_number(size=32) }}<br>
+            {% for erreur in checkBalance_form.account_number.errors %}
+                <span style="color: red;">{{ erreur }}</span><br>
+            {% endfor %}
+        </div>
+        <div class="input-balance-form">
+            {{ checkBalance_form.pin_code.label }}<br>
+            {{ checkBalance_form.pin_code(size=32) }}<br>
+            {% for erreur in checkBalance_form.pin_code.errors %}
+                <span style="color: red;">{{ erreur }}</span><br>
+            {% endfor %}
+        </div>
+        <button id="btn-balance" type="submit" class="btn btn-primary">Send</button>
+    </form>
+</div>
+
+
+<script>
+   document.addEventListener('DOMContentLoaded', function() {
+    var balanceBtn = document.getElementById('balance-btn');
+    var balanceContainer = document.getElementById('balance-form-container');
+    var closeBtn_12 = document.getElementById('close-btn_12');
+    var product = document.getElementById('product');
+
+    balanceBtn.addEventListener('click', function() {
+    console.log('Balance button clicked');
+    console.log('product:', product);
+    console.log('balanceContainer:', balanceContainer);
+    product.style.display = 'block';
+    balanceContainer.style.display = 'flex';
+    console.log('product display:', product.style.display);
+    console.log('balanceContainer display:', balanceContainer.style.display);
+});
+
+    closeBtn_12.addEventListener('click', function() {
+        balanceContainer.style.display = 'none';
+        product.style.display = 'none';
+    });
+});
+</script>
+        
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+        <script>
+            // Fonction pour fermer le message Flash
+            function closeFlash() {
+                // Masquer le message Flash
+                document.getElementById('flash-message').style.display = 'none';
+                // Enlever le fond sombre à la page principale
+                document.getElementById('overlay').style.display = 'none';
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+                // Afficher le fond sombre à la page principale
+                var overlay = document.getElementById('overlay');
+                overlay.style.display = 'block';
+
+                // Récupérer le bouton de fermeture du message Flash
+                var closeBtnFlash = document.getElementById('close-flash');
+                // Ajouter un écouteur d'événements pour le bouton de fermeture du message Flash
+                closeBtnFlash.addEventListener('click', function() {
+                    closeFlash();
+                });
+
+                // Afficher le message après 1 seconde
+                setTimeout(function() {
+                    var flashContent = document.getElementById('flash-content');
+                    flashContent.innerHTML = '{{ message }}';
+                    document.getElementById('flash-message').style.display = 'flex';
+                }, 1000);
+            });
+        </script>
+        {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+{% if check %}
+        <div id="balance" style="display: none;">
+            <p>Here is your account balance</p>
+            <button id="close-btn_13" style="font-weight: bold; margin-top: 8px; font-size: large; margin-right: 20px;">&#10006;</button>
+            <p>Your balance is <strong style="font-size: x-large;"> {{amount}} $ </strong></p>
+        </div>
+        
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var balance = document.getElementById('balance');
+            var product = document.getElementById('product');
+        
+            // Fermer le bloc de confirmation
+            function closeConfirmation() {
+                balance.style.display = 'none';
+                product.style.display = 'none';
+            }
+        
+            // Ajouter un écouteur d'événements pour le bouton close-btn_2
+            var closeBtn = document.getElementById('close-btn_13');
+            closeBtn.addEventListener('click', function() {
+                closeConfirmation();
+            });
+        
+            // Afficher le fond sombre à la page principale
+            product.style.display = 'block';
+        
+            // Afficher le bloc de confirmation après 1 seconde
+            setTimeout(function() {
+                balance.style.display = 'block';
+            }, 1000);
+        });
+        </script>
+{% endif %}
+
+{% if nocheck %}
+
+    <div id="balance_failed" style="display: none;">
+        <p>{{error_message_check_balance}}</p>
+        <button id="close-btn_14" style="font-weight: bold; margin-top: 8px; font-size: large; margin-right: 20px;">&#10006;</button>
+    </div>
+    
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var balance = document.getElementById('balance_failed');
+        var product = document.getElementById('product');
+    
+        // Fermer le bloc de confirmation
+        function closeConfirmation() {
+            balance.style.display = 'none';
+            product.style.display = 'none';
+        }
+    
+        // Ajouter un écouteur d'événements pour le bouton close-btn_2
+        var closeBtn = document.getElementById('close-btn_14');
+        closeBtn.addEventListener('click', function() {
+            closeConfirmation();
+        });
+    
+        // Afficher le fond sombre à la page principale
+        product.style.display = 'block';
+    
+        // Afficher le bloc de confirmation après 1 seconde
+        setTimeout(function() {
+            balance.style.display = 'block';
+        }, 1000);
+    });
+    </script>
+{% endif %}
+
+{% if novalid_amount_be_paid %}
+<div id="novalidamount_message" style="display: none;">
+    <p>{{novalidamount_message}}</p>
+    <button id="close-btn_15" style="font-weight: bold; margin-top: 8px; font-size: large; margin-right: 20px;">&#10006;</button>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var novalidamount_message = document.getElementById('novalidamount_message');
+    var product = document.getElementById('product');
+
+    // Fermer le bloc de confirmation
+    function closeConfirmation() {
+        novalidamount_message.style.display = 'none';
+        product.style.display = 'none';
+    }
+
+    // Ajouter un écouteur d'événements pour le bouton close-btn_2
+    var closeBtn = document.getElementById('close-btn_15');
+    closeBtn.addEventListener('click', function() {
+        closeConfirmation();
+    });
+
+    // Afficher le fond sombre à la page principale
+    product.style.display = 'block';
+
+    // Afficher le bloc de confirmation après 1 seconde
+    setTimeout(function() {
+        balance.style.display = 'block';
+    }, 1000);
+});
+</script>
+
+{% endif %}
+
+    
+
+
+
+
+    <script src="{{url_for('static', filename='script_1.js')}}"></script>
+  
+</body>
+</html>

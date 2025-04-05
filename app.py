@@ -11,7 +11,8 @@ from PIL import Image, ImageDraw, ImageFont
 import random
 import io
 import base64
-from keras.models import load_model
+from tensorflow.keras.models import load_model
+
 import numpy as np
 from tensorflow.keras.preprocessing.image import load_img, img_to_array
 
@@ -49,7 +50,7 @@ from forms import Signup_app, Login
 from wtforms.validators import ValidationError
 
 
-
+# Vérification de la force du mot de passe
 def check_password_strength(password):
     """Function to check password strength according to specific criteria."""
     import re

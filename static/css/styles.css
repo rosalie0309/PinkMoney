@@ -1,0 +1,911 @@
+body{
+    background-color: #F6A4EE;
+    color: white;
+    font-family: "Open Sans", sans-serif;
+    
+}
+
+/* 18605B*/
+
+
+.mini_body {
+    height: 560px;
+    width: auto;
+    margin-left: 30px;
+    margin-right: 30px;
+    border-radius: 25px;
+    background: linear-gradient(135deg, rgba(84, 65, 138, 0.8), rgba(106, 90, 205, 0.8)), url('../images/back6.png');
+    background-position: center; /* Centre l'image de fond */
+    background-repeat: no-repeat; /* Empêche la répétition de l'image */
+}
+
+
+.name_app{
+    margin-top: -0.5px;
+    font-weight: bold;
+    margin-left: -15px;
+}
+
+.nav{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    height: 50px;
+    text-align: center;
+    margin-top: 30px;
+    margin-bottom: -15px;
+    padding-top: 23px;
+
+}
+
+button{
+    border: none;
+    background: none;
+    padding: 0;
+    margin: 0;
+}
+
+
+/* Style pour les inputs lorsqu'ils sont actifs (focus) */
+#signup-account-form input[type="text"]:focus, 
+#signup-account-form input[type="password"]:focus, 
+#signup-account-form input[type="number"]:focus, 
+#signup-account-form input[type="email"]:focus {
+    border-color: #54418A; /* Couleur de la bordure lorsque l'input est actif */
+    outline: none; /* Supprimer le contour par défaut de l'input */
+}
+
+#payment-container form input[type="text"],
+#payment-container form input[type="password"],
+#payment-container form input[type="file"],
+#payment-container form input[type="number"],
+#payment-container form button {
+    border-color: white; 
+    outline: none; /* Supprimer le contour par défaut de l'input */
+}
+
+#payment-container form input[type="text"]:focus,
+#payment-container form input[type="password"]:focus,
+#payment-container form input[type="file"]:focus,
+#payment-container form input[type="number"]:focus,
+#payment-container form button {
+    border-color: #54418A; 
+    outline: none; /* Supprimer le contour par défaut de l'input */
+}
+
+/* Style pour les inputs lorsqu'ils sont actifs (focus) */
+#balance-form-container input[type="text"],
+#balance-form-container input[type="password"] ,
+#balance-form-container input[type="number"],
+#balance-form-container input[type="email"] {
+    border-color: white; /* Couleur de la bordure lorsque l'input est actif */
+    outline: none; /* Supprimer le contour par défaut de l'input */
+}
+
+/* Style pour les inputs lorsqu'ils sont actifs (focus) */
+#balance-form input[type="text"]:focus, 
+#balance-form input[type="password"]:focus, 
+#balance-form input[type="number"]:focus, 
+#balance-form input[type="email"]:focus {
+    border-color: #54418A; /* Couleur de la bordure lorsque l'input est actif */
+    outline: none; /* Supprimer le contour par défaut de l'input */
+}
+
+#signup-form input[type="text"], 
+#signup-form input[type="password"], 
+#signup-form input[type="number"], 
+#signup-form input[type="date"], 
+#signup-form input[type="email"] {
+    border-color: white ;
+    outline: none; /* Supprimer le contour par défaut de l'input */
+}
+
+/* Style pour les inputs lorsqu'ils sont actifs (focus) */
+#signup-form input[type="text"]:focus, 
+#signup-form input[type="password"]:focus, 
+#signup-form input[type="number"]:focus, 
+#signup-form input[type="date"]:focus, 
+#signup-form input[type="email"]:focus {
+    border-color: #54418A; /* Couleur de la bordure lorsque l'input est actif */
+    outline: none; /* Supprimer le contour par défaut de l'input */
+}
+
+#signup-account-form input[type="text"], 
+#signup-account-form input[type="password"], 
+#signup-account-form input[type="number"], 
+#signup-account-form input[type="date"], 
+#signup-account-form input[type="email"] {
+    border-color: white ;
+    outline: none; /* Supprimer le contour par défaut de l'input */
+}
+
+#signup-account-form input[type="text"]:focus, 
+#signup-account-form input[type="password"]:focus, 
+#signup-account-form input[type="number"]:focus, 
+#signup-account-form input[type="date"]:focus, 
+#signup-account-form input[type="email"]:focus {
+    border-color: #54418A ;
+    outline: none; /* Supprimer le contour par défaut de l'input */
+}
+
+#login-form input[type="text"], 
+#login-form input[type="password"], 
+#login-form input[type="number"], 
+#login-form input[type="date"], 
+#login-form input[type="email"] {
+    border-color: white;
+    outline: none; /* Supprimer le contour par défaut de l'input */
+}
+
+/* Style pour les inputs lorsqu'ils sont actifs (focus) */
+#login-form input[type="text"]:focus, 
+#login-form input[type="password"]:focus, 
+#login-form input[type="number"]:focus, 
+#login-form input[type="date"]:focus, 
+#login-form input[type="email"]:focus {
+    border-color: #54418A; /* Couleur de la bordure lorsque l'input est actif */
+    outline: none; /* Supprimer le contour par défaut de l'input */
+}
+
+
+.text_start{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+#main-content{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.sign_up, .login, .logout, .signup-account{
+    background-color: #F263B0;
+    height: 30px;
+    width: 120px;
+    border-radius: 25px;
+    text-align: center;
+    margin-top: -7px;
+    padding-top: 8px;
+    margin-bottom: -5px;
+    position: relative;
+}
+
+
+.signup-account{
+    width: 130px;
+}
+
+
+
+.sign_up:hover, .login:hover, .signup-account:hover, .logout:hover{
+    background-color: #F6A4EE;
+}
+
+#overlay,#login-form-container,#product{
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+#signup-account-form-container, #history-container{
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 800px;
+    height: 600px;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+#payment-container{
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 800px;
+    height: 700px;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+
+#signup-form-container, #login-form-container, #payment-container, #signup-account-form-container, #history-container{
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    text-align: left;
+    background-color: #F263B0;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+
+
+.transaction-history{
+    width: 90%;
+}
+
+#balance-form-container {
+    display: none; /* Masqué par défaut */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    text-align: left;
+    background-color: #F263B0;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    width: 400px;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+}
+
+.input-balance-form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.input-balance-form input{
+    width: 80%;
+}
+
+.balance_close {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: -10px;
+}
+
+/* Ajoutez des marges et des remplissages pour éviter les chevauchements */
+#balance-form p {
+    margin-bottom: 10px;
+}
+
+#balance{
+    display: block;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    text-align: left;
+    background-color: #F263B0;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    width: 400px;
+}
+
+/* Bouton d'envoi du formulaire */
+#btn-balance {
+    margin-top: 20px;
+    margin-left: -10px;
+    padding: 10px 20px;
+    background-color: #54418A;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+#btn-balance:hover {
+    background-color: #967ae6;
+}
+
+
+#payment{
+    margin-top: -50px;
+}
+
+#real-time-btn{
+    cursor: pointer; 
+    background-color: white; 
+    width: 200px;
+    border-radius: 6px;
+    margin-top: -10px;
+}
+
+#real-time-btn:hover, #buy-btn:hover, #next-btn:hover, #back-btn:hover, #capture-btn:hover{
+    background-color: #54418A;
+    color: white;
+
+}
+
+#buy-btn{
+    color: black;
+    cursor: pointer;
+    width: 100px;
+    height: 50px;
+    border-radius: 10px;
+    background-color: white;
+    margin-left: -405px;
+}
+
+
+  #next-btn{
+    color: black;
+    cursor: pointer;
+    width: 100px;
+    height: 50px;
+    border-radius: 10px;
+    background-color: white;
+    margin-top: -50px;
+    margin-left: 60px;
+}
+
+#back-btn{
+    color: black;
+    cursor: pointer;
+    width: 100px;
+    height: 50px;
+    border-radius: 10px;
+    background-color: white;  
+}
+
+#capture-btn{
+    color: black;
+    cursor: pointer;
+    width: 100px;
+    height: 50px;
+    border-radius: 10px;
+    background-color: white; 
+    margin-top: 20px;
+    margin-left: 50px;
+}
+
+
+  /* Style pour le modal */
+  .modal {
+    display: none; 
+    position: fixed; 
+    z-index: 1; 
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgb(0,0,0); 
+    background-color: rgba(0,0,0,0.4); 
+    padding-top: 60px;
+}
+.modal-content {
+    background-color: #F263B0;
+    margin: 5% auto; 
+    margin-left: 60%;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 30%; 
+    border-radius: 10px;
+}
+
+
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+
+#signup-btn, #login-btn, #signup-account-btn, #logout-btn, #start-btn{
+    border: none;
+    background: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+}
+
+a{
+    text-decoration: none;
+    color: white;
+}
+
+a:hover{
+    color: #F6A4EE;
+}
+
+#payment, #signup-account-form{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 20px;
+    width: 700px;
+    height: 500px;
+}
+
+#signup-form{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 20px;
+    width: 700px;
+    height: 480px; 
+}
+
+
+#login-form-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 20px;
+    width: 600px;
+    height: 380px;
+}
+
+
+#close-btn_1, #close-btn_2, #close-btn_3, #close-flash, #close-btn_4, #close-btn_5, #close-btn_6, #close-btn_7, #close-btn_8, #close-btn_9, #close-btn_10, #close-btn_11, #close-btn_12, #close-btn_13, #close-btn_14, #close-btn_15, #close-btn_16, #close-btn_17, #close-btn_18, #close-btn_19, #close-btn_20{
+    color: white;
+}
+#close-btn_1:hover, #close-btn_2:hover, #close-btn_3:hover, #close-flash:hover, #close-btn_4:hover, #close-btn_5:hover, #close-btn_6:hover, #close-btn_7:hover, #close-btn_8:hover, #close-btn_9:hover, #close-btn_10:hover, #close-btn_11:hover, #close-btn_12:hover, #close-btn_13:hover, #close-btn_14:hover, #close-btn_15:hover, #close-btn_16:hover, #close-btn_17:hover, #close-btn_18:hover, #close-btn_19:hover, #close-btn_20:hover{
+    color: #54418A;
+}
+
+#start-btn{
+    cursor: pointer;
+
+}
+
+#start:hover{
+    background-color: #F6A4EE;
+}
+
+#start{
+    background-color: #F263B0;
+}
+
+select {
+    height: 30px;
+    width: 250px;
+    border-radius: 10px; /* Coins arrondis */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Ombre */
+}
+input{
+    height: 30px;
+    width: 250px;
+    border-radius: 10px; /* Coins arrondis */
+}
+
+#amount_be_paid input{
+    height: 30px;
+    width: 250px;
+    border-radius: 10px; /* Coins arrondis */
+}
+
+select{
+    cursor: pointer;
+}
+ 
+button input{
+    height: 30px;
+    width: 100px;
+    border-radius: 25px;
+    border-color: white;
+    cursor: pointer;
+}
+
+button input:hover{
+    background-color: #54418A;
+    color: white;
+    font-weight: bold;
+    
+}
+
+#login{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+
+.blur {
+    filter: blur(5px);
+}
+
+#close-btn_1, #close-btn_2, #close-btn_3, #close-btn_4, #close-btn_5, #close-btn_6, #close-btn_7, #close-btn_8, #close-btn_9, #close-btn_10, #close-btn_11, #close-btn_12, #close-btn_13, #close-btn_14, #close-btn_15, #close-btn_16, #close-btn_17, #close-btn_18, #close-btn_19, #close-btn_20{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+#confirmation-page, #confirmation-page-bank-account, #payment-success{
+    display: none; /* Cacher la page de confirmation par défaut */
+    position: fixed; /* Positionner la page de confirmation par rapport à la fenêtre du navigateur */
+    top: 50%; /* Centrer verticalement */
+    left: 50%; /* Centrer horizontalement */
+    transform: translate(-50%, -50%); /* Centrer parfaitement */
+    background-color: #F263B0; /* Couleur de fond */
+    padding: 20px; /* Ajouter un peu de marge intérieure */
+    border-radius: 10px; /* Ajouter des coins arrondis */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Ajouter une ombre pour l'effet de profondeur */
+    color: white;
+    height: 500px;
+    width: 500px;
+    text-align: center;
+    font-size: x-large;
+    font-weight: bold;
+    flex-direction: column;
+    justify-content: space-between;
+    z-index: 999; /* Assurez-vous que la page de confirmation est au-dessus du reste du contenu */
+    
+}
+
+#waiting-message{
+    display: none; /* Cacher la page de confirmation par défaut */
+    position: fixed; /* Positionner la page de confirmation par rapport à la fenêtre du navigateur */
+    top: 50%; /* Centrer verticalement */
+    left: 50%; /* Centrer horizontalement */
+    transform: translate(-50%, -50%); /* Centrer parfaitement */
+    background-color: #F263B0; /* Couleur de fond */
+    padding: 20px; /* Ajouter un peu de marge intérieure */
+    border-radius: 10px; /* Ajouter des coins arrondis */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Ajouter une ombre pour l'effet de profondeur */
+    color: white;
+    height: 50px;
+    width: 500px;
+    text-align: center;
+    font-size: x-large;
+    font-weight: bold;
+    flex-direction: column;
+    justify-content: space-between;
+    z-index: 999; /* Assurez-vous que la page de confirmation est au-dessus du reste du contenu */
+   
+}
+
+#btn-balance{
+    margin-left: 350px;
+    margin-top: -20px;
+}
+
+#btn-signup-form{
+    margin-left: 70px;
+}
+
+
+#bank-account-exist, #account-exist, #insufficient-balance, #invalid-code-pin, #invalid-account,  #invalid-account_beneficiary, #invalid-fingerprint, #payment-form-not-filled{
+    display: none; /* Cacher la page de confirmation par défaut */
+    position: fixed; /* Positionner la page de confirmation par rapport à la fenêtre du navigateur */
+    top: 50%; /* Centrer verticalement */
+    left: 50%; /* Centrer horizontalement */
+    transform: translate(-50%, -50%); /* Centrer parfaitement */
+    background-color: rgb(241, 84, 84);; /* Couleur de fond */
+    padding: 20px; /* Ajouter un peu de marge intérieure */
+    border-radius: 10px; /* Ajouter des coins arrondis */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Ajouter une ombre pour l'effet de profondeur */
+    color: white;
+    height: 500px;
+    width: 500px;
+    text-align: center;
+    font-size: x-large;
+    font-weight: bold;
+    flex-direction: column;
+    justify-content: space-between;
+    z-index: 999; /* Assurez-vous que la page de confirmation est au-dessus du reste du contenu */
+
+}
+
+#confirmation-page p {
+    margin: 0; /* Supprimer la marge par défaut pour le paragraphe */
+}
+
+/* POur les message flash */
+
+/* Style du bloc de message Flash */
+.flash-message, #novalidamount_message, #balance_failed, #invalid-account_number, #password_error{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgb(241, 84, 84);
+    color: white;
+    font-weight: bold;
+    width: 500px;
+    height: 50px;
+    padding: 20px;
+    border-radius: 5px;
+    z-index: 1000;
+}
+
+/* Style du contenu du message Flash */
+.flash-content {
+    margin-bottom: 10px;
+}
+
+/* Style du bouton de fermeture */
+.close-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: transparent;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+balance
+
+.start{
+    background-color: #F263B0;
+    height: 30px;
+    width: 174px;
+    border-radius: 25px;
+    text-align: center;
+    margin-left: 50px;
+    padding-top: 10px;
+}
+
+.start:hover{
+    background-color: #F6A4EE;
+}
+
+.text_home{
+    margin-left: 50px;
+}
+
+.transact{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    margin-left: 50px;
+}
+
+.user{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.stat{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-top: 50px;
+    font-weight: bold;
+}
+
+.user-profile{
+    margin-top: -15px;
+}
+
+.user-profile img {
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+
+#update_profile_pic{
+    color: #f0f0f0;
+}
+#update_profile_pic:hover{
+    color: #54418A
+}
+
+.actions{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: center;
+}
+
+#bloc1, #bloc2  {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    text-align: center;
+}
+
+.actions img{
+    height: 150px;
+    width: 170px;
+}
+
+.actions img:hover{
+
+    cursor: pointer;
+}
+
+#act-1, #act-2, #act-3, #act-4{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    background-color: #F263B0;
+    border-radius: 10px;
+    cursor: pointer;
+    height: 180px;
+    width: 180px;
+}
+
+#act-1:hover, #act-2:hover, #act-3:hover, #act-4:hover{
+    background-color: #967ae6;
+    height: 200px;
+    width: 200px;
+}
+
+#act-3, #act-4{
+    margin-top: 25px;
+    height: 190px;
+    width: 185px;
+}
+
+#act-3 img, #act-4 img, #act-2 img{
+    margin-left: 7px;
+}
+
+#act-3:hover img, #act-4:hover img, #act-2:hover img{
+    margin-left: 15px;
+}
+
+#step2{
+    display: flex;
+    justify-content: start;
+   
+    padding: 20px;
+    
+}
+
+.form-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1200px;
+}
+
+.form-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 50%;
+}
+
+.illustrator_signup {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#fingerprint {
+    margin-top: 0;
+}
+
+#fingerprint label {
+    font-weight: bold;
+}
+
+#fingerprint small {
+    color: #54418A;
+    font-weight: bold;
+}
+
+#fingerprint input[type="file"] {
+    cursor: pointer;
+    margin-top: -20px;
+    margin-bottom: 10px;
+}
+
+#real-time-btn {
+    margin-top: -10px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 50px;
+}
+
+.button-container .btn {
+    margin-right: 10px;
+}
+
+#back-btn {
+    margin-right: 500px;
+}
+
+
+
+
+/* Styles par défaut pour les écrans larges (ordinateurs) */
+/* Ajoutez ici vos styles existants pour les écrans larges
+
+/* Media Query pour les smartphones */
+@media only screen and (max-width: 768px) {
+    /* Pour rendre le conteneur principal (mini_body) réactif */
+    .mini_body {
+        width: 90%; /* Ajustez la largeur en pourcentage */
+        max-width: 90%; /* Limitez la largeur maximale */
+        margin: 20px auto; /* Centrer horizontalement avec une marge en haut et en bas */
+    }
+
+    /* Pour rendre la barre de navigation réactive */
+    .nav {
+        flex-wrap: wrap; /* Permettre le passage à la ligne */
+        justify-content: center; /* Centrer les éléments */
+        margin-top: 20px; /* Ajoutez un peu d'espace en haut */
+    }
+
+    /* Pour rendre les boutons de connexion et d'inscription réactifs */
+    .sign_up, .login {
+        width: 40%; /* Ajustez la largeur en pourcentage */
+        margin-top: 10px; /* Ajoutez un peu d'espace en haut */
+    }
+
+    img{
+        width: 250px;
+    }
+
+    /* Pour rendre les images des actions réactives */
+    .actions img {
+        width: 100%; /* Remplissez la largeur du conteneur parent */
+        height: auto; /* Ajustez automatiquement la hauteur */
+        max-width: 250px; /* Limitez la largeur maximale */
+    }
+
+
+    /* Pour rendre les blocs d'actions réactifs */
+    #act-1, #act-2, #act-3 {
+        width: 90%; /* Ajustez la largeur en pourcentage */
+        max-width: 300px; /* Limitez la largeur maximale */
+        margin-bottom: 20px; /* Ajoutez une marge en bas */
+    }
+}
+
+/* pour l'historique des paiements*/
+
+.transaction-history {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    color: #54418A;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+thead th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tbody tr:hover {
+    background-color: #f0f0f0;
+}

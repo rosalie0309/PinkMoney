@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/styles.css')}}">
+    <title>biometrie</title>
+</head>
+<body>
+<div class="mini_body">
+   
+    <div id="overlay"></div>
+
+    {% if data_send%}
+<div id="confirmation-page" style="display: none;">
+    <p>Account Created Successfully!</p>
+    <img src="{{ url_for('static', filename='images/success.png') }}" alt="confirmlogo">
+</div>
+
+<div id="waiting-message" style="display: none; text-align: center; font-size: large; font-weight: bold; margin-top: 20px;">
+    Please wait, you are being redirected<span id="dots">...</span>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var confirmationPage = document.getElementById('confirmation-page');
+    var waitingMessage = document.getElementById('waiting-message');
+    var overlay = document.getElementById('overlay');
+    var mainContent = document.getElementById('main-content');
+    var dots = document.getElementById('dots');
+    
+    // Fonction pour animer les points de suspension
+    function animateDots() {
+        var dotCount = 0;
+        setInterval(function() {
+            dotCount = (dotCount + 1) % 4;
+            dots.textContent = '.'.repeat(dotCount);
+        }, 500);
+    }
+
+    // Afficher le fond sombre à la page principale
+    overlay.style.display = 'block';
+
+    // Afficher le bloc de confirmation après 1 seconde
+    setTimeout(function() {
+        confirmationPage.style.display = 'block';
+
+        // Afficher le message de confirmation pendant 3 secondes
+        setTimeout(function() {
+            confirmationPage.style.display = 'none';
+            waitingMessage.style.display = 'block';
+            animateDots();  // Lancer l'animation des points de suspension
+
+            // Afficher le message d'attente pendant 10 secondes avant de rediriger
+            setTimeout(function() {
+                window.location.href = '/actions';
+            }, 10000);
+        }, 3000);
+    }, 1000);
+});
+</script>
+{% endif %}
+
+{% if password_valid == False %}
+
+<div id="password_error" style="display: none;">
+    <button id="close-btn_19" style="font-weight: bold; margin-top: 8px; font-size: large; margin-right: 20px;">&#10006;</button>
+    <p> {{password_error}} </p>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var confirmationPage = document.getElementById('password_error');
+    var overlay = document.getElementById('overlay');
+
+    // Fermer le bloc de confirmation
+    function closeConfirmation() {
+        confirmationPage.style.display = 'none';
+        overlay.style.display = 'none';
+    }
+
+    // Ajouter un écouteur d'événements pour le bouton close-btn_2
+    var closeBtn = document.getElementById('close-btn_19');
+    closeBtn.addEventListener('click', function() {
+        closeConfirmation();
+    });
+
+    // Afficher le fond sombre à la page principale
+    overlay.style.display = 'block';
+
+    // Afficher le bloc de confirmation après 1 seconde
+    setTimeout(function() {
+        confirmationPage.style.display = 'block';
+    }, 1000);
+});
+</script>
+
+{% endif %}
+      
+
+{% if exist %}
+        <div id="account-exist" style="display: none;">
+            <button id="close-btn_6" style="font-weight: bold; margin-top: 8px; font-size: large; margin-right: 20px;">&#10006;</button>
+            <p>This username or email adress already exists. Please create a new account on the PinkMoney app!!</p>
+            <img src="{{url_for('static', filename='images/failure.png')}}" style="width: 400px;" alt="failurelogo">
+
+        </div>
+        
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var confirmationPage = document.getElementById('account-exist');
+            var overlay = document.getElementById('overlay');
+        
+            // Fermer le bloc de confirmation
+            function closeConfirmation() {
+                confirmationPage.style.display = 'none';
+                overlay.style.display = 'none';
+            }
+        
+            // Ajouter un écouteur d'événements pour le bouton close-btn_2
+            var closeBtn = document.getElementById('close-btn_6');
+            closeBtn.addEventListener('click', function() {
+                closeConfirmation();
+            });
+        
+            // Afficher le fond sombre à la page principale
+            overlay.style.display = 'block';
+        
+            // Afficher le bloc de confirmation après 1 seconde
+            setTimeout(function() {
+                confirmationPage.style.display = 'block';
+            }, 1000);
+        });
+        </script>
+
+{% endif %}
+
+
+    <div id="signup-form-container">
+        <div class="signup_close">
+            <p style="font-weight: bold; font-size: large; text-align: center;">Create your account on PinkMoney application</p>
+            <button id="close-btn_1" style="font-weight: bold; margin-top: 8px; font-size: large; margin-right: 20px;">&#10006;</button>
+            <p style="text-align: center; margin-top: -10px;">Already have an account? <button id="login-start"><span style="color: #54418A; font-weight: bold; cursor: pointer;">Login</span></button></p>
+        </div>     
+        <div id="signup-form" style="margin-top: -25px; margin-bottom: 5px;">
+            <form action="{{url_for('index')}}"  method="POST">
+                {{ signup_form.hidden_tag() }}
+
+                <div>
+                    {{ signup_form.lastname.label }} <br>
+                    {{ signup_form.lastname(size=32) }} <br>
+                    {% for erreur in signup_form.lastname.errors %}
+                        <span style="color: red;">{{ erreur }}</span> <br>
+                    {% endfor %} <br>
+                </div>
+               
+               
+                <div style="margin-top: -6px;">
+                    {{ signup_form.firstname.label }} <br>
+                    {{ signup_form.firstname(size=32) }} <br>
+                    {% for erreur in signup_form.firstname.errors %}
+                        <span style="color: red;">{{ erreur }}</span> <br>
+                    {% endfor %} <br>
+              
+                </div>
+               
+                <div style="margin-top: -6px;">
+                    {{ signup_form.birthday.label }} <br>
+                    {{ signup_form.birthday(size=32) }} <br>
+                    {% for erreur in signup_form.birthday.errors %}
+                        <span style="color: red;">{{ erreur }}</span> <br>
+                    {% endfor %} <br>
+              
+                </div>
+                <div style="margin-top: -6px;">
+                    {{ signup_form.email.label }} <br>
+                    {{ signup_form.email(size=32) }} <br>
+                    {% for erreur in signup_form.email.errors %}
+                        <span style="color: red;">{{ erreur }}</span> <br>
+                    {% endfor %} <br>
+                </div>
+              
+                <div style="margin-top: -6px;">
+                    {{ signup_form.username.label }} <br>
+                    {{ signup_form.username(size=32) }} <br>
+                    {% for erreur in signup_form.username.errors %}
+                        <span style="color: red;">{{ erreur }}</span> <br>
+                    {% endfor %} <br>
+      
+                </div>
+                   <div>
+                        {{ signup_form.password.label }}<br>
+                        
+                        <input type="password" id="password" name="password">
+                        {% for error in signup_form.password.errors %}
+                            <span style="color: red;">{{ error }}</span><br>
+                        {% endfor %} <br>
+                    </div>
+                    <button style="cursor: pointer; color: #54418A; font-weight: bold;" id="show-hide" type="button" onclick="togglePasswordVisibility()">Show/Hide</button><br>
+
+                    <button id="btn-signup-form" type="submit" class="btn btn-primary"><input value="Send" style="text-align: center;"></button>
+           
+               
+            </form>
+            <div class="illustrator_signup">
+                <img  src="{{url_for('static', filename='images/signup.png')}}" alt="illustrator_signup" width="540px" height="540px">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function togglePasswordVisibility() {
+            var passwordInput = document.getElementById("password");
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+            } else {
+                passwordInput.type = "password";
+            }
+        }
+    </script>
+
+    <div id="login-form-container" style="display: none; justify-content: space-around;">
+        <div style="display: flex; flex-direction: row; justify-content: space-between; margin-top: -20px;">
+            <h2>Connexion</h2> 
+            <button id="close-btn_3" style="font-weight: bold;  font-size: large; margin-right: 20px;">&#10006;</button>
+
+        </div>        
+        <div id="login" style="margin-top: 10px;">
+            <form id="login-form" action="{{ url_for('login') }}" method="POST">
+                {{ login_form.hidden_tag() }}
+            
+                <div class="form-group">
+                    {{ login_form.email.label }}<br>
+                    {{ login_form.email(class="form-control", placeholder="corine@gmail.com") }}<br>
+                    {% for error in login_form.email.errors %}
+                        <span style="color: red;">{{ error }}</span><br>
+                    {% endfor %} <br>
+                </div>
+            
+                <div class="form-group">
+                    {{ login_form.username.label }}<br>
+                    {{ login_form.username(class="form-control", placeholder="Coco@07") }}<br>
+                    {% for error in login_form.username.errors %}
+                        <span style="color: red;">{{ error }}</span><br>
+                    {% endfor %} <br>
+                </div>
+            
+                <div class="form-group">
+                    {{ login_form.password.label }}<br>
+                    {{ login_form.password(class="form-control", placeholder="*****") }}<br>
+                    {% for error in login_form.password.errors %}
+                        <span style="color: red;">{{ error }}</span><br>
+                    {% endfor %} <br>
+                </div>
+            
+                <button  type="submit" class="btn btn-primary"><input value="Connexion" style="text-align: center; margin-left: 65px;"></button>
+            </form>
+            
+            <img src="{{url_for('static', filename='images/connect.png')}}" alt="connexion" style="height: 300px; width: 450px;">
+        </div>
+    </div>
+    
+    {% if connexion == False or connexion_payment_form == False %}
+    <!-- Div pour afficher les messages Flash -->
+    <div id="flash-message" class="flash-message" style="display: none;">
+        <div class="flash-content" id="flash-content"></div>
+        <button id="close-flash" class="close-btn" onclick="closeFlash()">&#10006;</button>
+    </div>
+    
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+        <script>
+            // Fonction pour fermer le message Flash
+            function closeFlash() {
+                // Masquer le message Flash
+                document.getElementById('flash-message').style.display = 'none';
+                // Enlever le fond sombre à la page principale
+                document.getElementById('overlay').style.display = 'none';
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+                // Afficher le fond sombre à la page principale
+                var overlay = document.getElementById('overlay');
+                overlay.style.display = 'block';
+
+                // Récupérer le bouton de fermeture du message Flash
+                var closeBtnFlash = document.getElementById('close-flash');
+                // Ajouter un écouteur d'événements pour le bouton de fermeture du message Flash
+                closeBtnFlash.addEventListener('click', function() {
+                    closeFlash();
+                });
+
+                // Afficher le message après 1 seconde
+                setTimeout(function() {
+                    var flashContent = document.getElementById('flash-content');
+                    flashContent.innerHTML = '{{ message }}';
+                    document.getElementById('flash-message').style.display = 'flex';
+                }, 1000);
+            });
+        </script>
+        {% endfor %}
+    {% endif %}
+    {% endwith %}
+{% endif %}
+ 
+
+         <div class="nav">
+            <img src="" alt="">
+            <a href="/" class="name_app">
+                <img style="width: 60px; margin-left: -10px;" src="{{url_for('static', filename='images/logo-1.png')}}" alt="logo">
+                <span style="color: #F263B0;">P</span><span>ink</span><span style="color: #F263B0;">M</span><span>oney</span>
+            </a>
+            <a href="/">Home</a>
+            <a href="#">Actions</a>
+            <a href="#">About us</a>
+            <a href="#" id="contact-us">Contact us</a>
+            <div class="sign_up">
+                <button id="signup-btn" style="color: white;">Sign Up</button>
+            </div>
+            <div class="login">
+                <button id="login-btn" style="color: white;">Login</button>
+            </div>
+        </div>
+        
+        <hr style="height: 1px; border: none; background-color: white; opacity: 0.5;">
+        <div id="main-content">
+            <div class="text_start">
+                <div class="text_home">
+                    <p style="font-weight: bold;">Simple way to make online</p>
+                    <p style="color: #F263B0; margin-top: -15px; font-weight: bold;">payments</p>
+                    <p>
+                        PinkMoney is the technology company that provides online payment
+                        service to businesses and individuals
+                    </p>
+                </div>
+
+                <div id="start-container">
+
+                </div>
+                
+                <div id="start" style="width: 150px; margin-left: 60px; text-align: center; height: 40px; padding-top: 11px; border-radius: 10px;">
+                    <button id="start-btn" style="color: white;"><span>Get Started</span></button>
+                </div>
+                <div class="stat">
+                    <div class="transact">
+                        <img src="" alt="">
+                        <span>5M+</span>
+                        <span>Daily transactions</span>
+                    </div>
+                    <div class="user">
+                        <span>30K+</span>
+                        <span>Active users</span>
+                    </div>
+                </div>
+            </div>
+            <div class="illustrator_1">
+                <img src="{{url_for('static', filename='images/payment_1.png')}}" alt="payement_image">
+            </div>
+        </div>
+    </div>
+
+    <script src="{{url_for('static', filename='js/script.js')}}"></script>
+</body>
+</html>

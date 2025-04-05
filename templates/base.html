@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/styles.css')}}">
+    <title>biometrie</title>
+</head>
+<body>
+    <div id="overlay"></div>
+    <div id="confirmation-page">
+        <p>Account Create Sucessfully !</p>
+        <button id="close-btn_2" style="font-weight: bold; margin-top: 8px; font-size: large; margin-right: 20px;">&#10006;</button>
+        <img src="{{url_for('static', filename='images/success.png')}}" alt="confirmlogo">
+    </div>
+    <div id="signup-form-container">
+        <div class="signup_close">
+            <p style="font-weight: bold; font-size: large; text-align: center;">Create your account on PinkMoney application</p>
+            <button id="close-btn_1" style="font-weight: bold; margin-top: 8px; font-size: large; margin-right: 20px;">&#10006;</button>
+            <p style="text-align: center;">Already have an account? <button id="login-start"><span style="color: #54418A; font-weight: bold; cursor: pointer;">Login</span></button></p>
+        </div>  
+              
+        <div id="signup-form">
+            <form action="/" method="POST">
+                {{ form.hidden_tag() }}
+                <p id="name">
+                    {{ form.name.label }}<br>
+                    {{ form.name(size=32) }}<br>
+                    {% for erreur in form.name.errors %}
+                        <span style="color: red;">{{ erreur }}</span><br>
+                    {% endfor %}
+                </p>
+                <p id="birthday">
+                    {{ form.birthday.label }}<br>
+                    {{ form.birthday(size=32) }}<br>
+                    {% for erreur in form.birthday.errors %}
+                        <span style="color: red;">{{ erreur }}</span><br>
+                    {% endfor %}
+                </p>
+                <p id="email">
+                    {{ form.email.label }}<br>
+                    {{ form.email(size=32) }}<br>
+                    {% for erreur in form.email.errors %}
+                        <span style="color: red;">{{ erreur }}</span><br>
+                    {% endfor %}
+                </p>
+                <p id="username">
+                    {{ form.username.label }}<br>
+                    {{ form.username(size=32) }}<br>
+                    {% for erreur in form.username.errors %}
+                        <span style="color: red;">{{ erreur }}</span><br>
+                    {% endfor %}
+                </p>
+                <p id="password">
+                    {{ form.password.label }}<br>
+                    {{ form.password(size=32) }}<br>
+                    {% for erreur in form.password.errors %}
+                        <span style="color: red;">{{ erreur }}</span><br>
+                    {% endfor %}
+                </p>
+                <p>
+                    <label for="typeaccount">Type of Account: </label>
+                    <select name="typeaccount" id="typeaccount">
+                        <option value="">personnal</option>
+                        <option value="">professional</option>
+                    </select>
+                </p>
+                {{ form.submit() }}
+            </form>
+            <div class="illustrator_signup">
+                <img src="{{url_for('static', filename='images/signup.png')}}" alt="illustrator_signup" width="540px" height="540px">
+            </div>
+        </div>
+
+    </div>
+
+    <div id="login-form-container" style="display: none; justify-content: space-around;">
+        <div style="display: flex; flex-direction: row; justify-content: space-between; margin-top: -20px;">
+            <h2>Connexion</h2> 
+            <button id="close-btn_3" style="font-weight: bold;  font-size: large; margin-right: 20px;">&#10006;</button>
+
+        </div>        
+        <div id="login">
+            <form action="{{url_for('welcome_biometrie')}}" method="POST">
+                <p>
+                    <label for="email">Email:</label><br>
+                    <input type="email" id="email" name="email" placeholder="corine@gmail.com" required>
+                </p>
+                <p>
+                    <label for="username">User Name:</label> <br>
+                    <input type="text" id="username" name="username" placeholder="Coco@07">
+                </p>
+                <p>
+                    <label for="password">Password:</label> <br>
+                    <input type="password" id="mdp" name="mdp" placeholder="*****" required>
+                </p>
+                <button class="input"><input type="submit" value="Connexion"></button>
+            </form>
+            <img src="{{url_for('static', filename='images/connect.png')}}" alt="connexion" style="height: 300px; width: 450px;">
+        </div>
+    </div>
+
+    <div class="mini_body">
+        <div class="nav">
+            <img src="" alt="">
+            <a href="{{url_for('biometrie')}}" class="name_app">
+                <span style="color: #F263B0;">P</span><span>ink</span><span style="color: #F263B0;">M</span><span>oney</span>
+            </a>
+            <a href="{{url_for('biometrie')}}">Home</a>
+            <a href="#">Actions</a>
+            <a href="#">About us</a>
+            <a href="#" id="contact-us">Contact us</a>
+            <div class="sign_up">
+                <button id="signup-btn" style="color: white;">Sign Up</button>
+            </div>
+            <div class="login">
+                <button id="login-btn" style="color: white;">Login</button>
+            </div>
+        </div>
+        <hr>
+        <div id="main-content">
+            <div class="text_start">
+                <div class="text_home">
+                    <p style="font-weight: bold;">Simple way to make online</p>
+                    <p style="color: #F263B0; margin-top: -15px; font-weight: bold;">payments</p>
+                    <p>
+                        PinkMoney is the technology company that provides online payment
+                        service to businesses and individuals
+                    </p>
+                </div>
+
+                <div id="start-container">
+
+                </div>
+                
+                <div class="start">
+                    <button id="start-btn" style="color: white;"><span>Get Start</span></button>
+                </div>
+                <div class="stat">
+                    <div class="transact">
+                        <img src="" alt="">
+                        <span>5M+</span>
+                        <span>Daily transactions</span>
+                    </div>
+                    <div class="user">
+                        <span>30K+</span>
+                        <span>Active users</span>
+                    </div>
+                </div>
+            </div>
+            <div class="illustrator_1">
+                <img src="{{url_for('static', filename='images/payement_1.png')}}" alt="payement_image">
+            </div>
+        </div>
+    </div>
+
+    <script src="{{url_for('static', filename='script.js')}}"></script>
+</body>
+</html>
